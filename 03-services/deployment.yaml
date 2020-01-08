@@ -16,7 +16,6 @@ spec:
       containers:
       - name: nginx
         image: shadjachaudhari/nginx:v1.0.0
-        imagePullPolicy: Always
         command: ["/bin/sh"]
         args: ["-c", "./env.sh > /usr/share/nginx/html/env.js && nginx -g 'daemon off;' "]
 ---
@@ -39,6 +38,5 @@ spec:
       containers:
       - name: nginx
         image: shadjachaudhari/nginx:v2.0.0
-        imagePullPolicy: Always
         command: ["/bin/sh"]
         args: ["-c", "./env.sh > /usr/share/nginx/html/env.js && nginx -g 'daemon off;' "]

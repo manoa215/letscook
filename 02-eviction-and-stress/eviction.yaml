@@ -10,7 +10,6 @@ spec:
   terminationGracePeriodSeconds: 0
   containers:
   - name: evict
-    imagePullPolicy: IfNotPresent
     image: busybox
     resources:
       requests:
