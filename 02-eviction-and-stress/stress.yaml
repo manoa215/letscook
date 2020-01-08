@@ -1,0 +1,49 @@
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: stress
+#   labels:
+#     app: stress 
+# spec:
+#   terminationGracePeriodSeconds: 0
+#   containers:
+#   - name: stress
+#     imagePullPolicy: Never
+#     image: shadjachaudhari/stress:latest
+#     resources:
+#       requests:
+#         memory: "20Mi"
+#         cpu: "10m"
+#       limits:
+#         memory: "50Mi"
+#     command: ["/usr/bin/stress"]
+#     args: ["--vm","4", "--vm-bytes", "1500M", "--vm-hang", "1"]
+---
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: stress
+    labels:
+      app: stress
+  spec:
+    selector:
+      matchLabels:
+        app: stress
+    template:
+      metadata:
+        name: stress
+        labels:
+          app: stress
+      spec:
+        terminationGracePeriodSeconds: 0
+        containers:
+        - name: stress
+          image: shadjachaudhari/stress
+          imagePullPolicy: IfNotPresent
+          command: ["/usr/bin/stress"]
+          resources:
+            limits:
+              memory: 50Mi
+              cpu: 10m
+  
+          args: ["--vm","4", "--vm-bytes", "2000M", "--vm-hang", "1"]

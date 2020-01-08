@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "/Users/shadjachaudhari13/my-github/expense-tracker-nodejs"
+		},
+		{
+			"path": "/Users/shadjachaudhari13/technowise"
+		}
+	],
+	"settings": {
+		"sonarlint.connectedMode.project": {
+			"serverId": "sonar-lint",
+			"projectKey": "sonar-lint"
+		  }
+	}
+}

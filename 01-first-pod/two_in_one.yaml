@@ -1,0 +1,35 @@
+# two containers accessing same port
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  terminationGracePeriodSeconds: 0
+  restartPolicy: Never
+  containers:
+  - name: nginx-1
+    image: nginx:1.17-alpine
+    imagePullPolicy: IfNotPresent
+  - name: nginx-2
+    image: nginx:1.17-alpine
+    imagePullPolicy: IfNotPresent
+---
+# can talk to localhost
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  terminationGracePeriodSeconds: 0
+  restartPolicy: Never
+  containers:
+  - name: nginx-1
+    image: nginx:1.17-alpine
+    imagePullPolicy: IfNotPresent
+  - name: nginx-2
+    image: shadjachaudhari/nginx:8080
+    imagePullPolicy: IfNotPresent
