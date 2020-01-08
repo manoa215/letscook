@@ -1,35 +1,35 @@
-# two containers accessing same port
-apiVersion: v1
-kind: Pod
-metadata:
-  name: nginx
-  labels:
-    app: nginx
-spec:
-  terminationGracePeriodSeconds: 0
-  restartPolicy: Never
-  containers:
-  - name: nginx-1
-    image: nginx:1.17-alpine
-    imagePullPolicy: IfNotPresent
-  - name: nginx-2
-    image: nginx:1.17-alpine
-    imagePullPolicy: IfNotPresent
+# # two containers in one pod
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: double
+#   labels:
+#     app: double
+# spec:
+#   terminationGracePeriodSeconds: 0
+#   restartPolicy: Never
+#   containers:
+#   - name: one
+#     image: busybox #change to nginx:1.17-alpine
+#   - name: two
+#     image: busybox #change to nginx:1.17-alpine
 ---
-# can talk to localhost
-apiVersion: v1
-kind: Pod
-metadata:
-  name: nginx
-  labels:
-    app: nginx
-spec:
-  terminationGracePeriodSeconds: 0
-  restartPolicy: Never
-  containers:
-  - name: nginx-1
-    image: nginx:1.17-alpine
-    imagePullPolicy: IfNotPresent
-  - name: nginx-2
-    image: shadjachaudhari/nginx:8080
-    imagePullPolicy: IfNotPresent
+# # two containers accessing same port
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: multi
+#   labels:
+#     app: multi
+# spec:
+#   terminationGracePeriodSeconds: 0
+#   restartPolicy: Never
+#   containers:
+#   - name: one
+#     image: nginx:1.16-alpine #change to nginx:1.16-alpine
+#   - name: two
+#     image: shadjachaudhari/nginx:8080 #change to shadjachaudhari/nginx:8080
+#   - name: three
+#     image: shadjachaudhari/nginx:8080
+#     command: ["/bin/sh"]
+#     args: ["-c","curl -I localhost && curl -I localhost:8080"] #add sleep to hold logs
