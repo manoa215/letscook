@@ -19,16 +19,16 @@ spec:
         command: ["/bin/sh"]
         args: ["-c", "./env.sh > /usr/share/nginx/html/env.js && nginx -g 'daemon off;' "]
 # ---
-# # service matches labels for all pods, with/without deployment
-# apiVersion: v1
-# kind: Pod 
-# metadata:
-#  name: nginx
-#  labels:
-#    app: frontend
-# spec:
-#   terminationGracePeriodSeconds: 0
-#   containers:
-#   #- name: container-name
-#   - name: nginx
-#     image: nginx:1.16-alpine
+# service matches labels for all pods, with/without deployment
+apiVersion: v1
+kind: Pod 
+metadata:
+ name: nginx
+ labels:
+   app: frontend
+spec:
+  terminationGracePeriodSeconds: 0
+  containers:
+  #- name: container-name
+  - name: nginx
+    image: nginx:1.16-alpine
