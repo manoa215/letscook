@@ -1,18 +1,22 @@
-# # two containers in one pod
-# apiVersion: v1
-# kind: Pod
-# metadata:
-#   name: double
-#   labels:
-#     app: double
-# spec:
-#   terminationGracePeriodSeconds: 0
-#   restartPolicy: Never
-#   containers:
-#   - name: one
-#     image: busybox #change to nginx:1.17-alpine
-#   - name: two
-#     image: busybox #change to nginx:1.17-alpine
+two containers in one pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: double
+  labels:
+    app: double
+spec:
+  terminationGracePeriodSeconds: 0
+  restartPolicy: Never
+  containers:
+  - name: one
+    image: busybox #change to nginx:1.17-alpine
+    command: ["/bin/sh"]
+    args: ["-c","echo $HOSTNAME"]
+  - name: two
+    image: busybox #change to nginx:1.17-alpine
+    command: ["/bin/sh"]
+    args: ["-c","echo $HOSTNAME"]
 ---
 # # two containers accessing same port
 # apiVersion: v1
@@ -25,11 +29,11 @@
 #   terminationGracePeriodSeconds: 0
 #   restartPolicy: Never
 #   containers:
-#   - name: one
+#   - name: nginx-1-16-80
 #     image: nginx:1.16-alpine #change to nginx:1.16-alpine
-#   - name: two
+#   - name: nginx-1-17-8080
 #     image: shadjachaudhari/nginx:8080 #change to shadjachaudhari/nginx:8080
-#   - name: three
+#   - name: no-nginx
 #     image: shadjachaudhari/nginx:8080
 #     command: ["/bin/sh"]
-#     args: ["-c","curl -I localhost && curl -I localhost:8080"] #add sleep to hold logs
+#     args: ["-c","curl -I localhost:80 && curl -I localhost:8080 && sleep 300"] #add sleep to hold logs
