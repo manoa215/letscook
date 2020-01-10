@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staging-app
+spec:
+  selector:
+    matchLabels:
+      app: staging
+  template:
+    metadata:
+      labels:
+        app: staging
+    spec:
+      volumes:
+      - name: vol-staging-properties
+        configMap:
+          name: staging-properties
+          items:
+          - key: properties
+            path: application.properties
+      - name: vol-staging-script        
+        configMap:
+          #defaultMode: 0700
+          name: run-sh
+          items:
+          - key: script
+            path: run.sh
+      containers:
+      - name: ui-staging
+        image: busybox
+        command: ["/bin/sh"]
+        args: ["-c", "cat /new-dir/application.properties && ./tmp/run.sh"]
+        #args: ["-c", "cat /new-dir/application.properties && chmod 777 -R /tmp/run.sh && ./tmp/run.sh"]
+        volumeMounts:
+        - mountPath: /new-dir
+          name: vol-staging-properties
+        - mountPath: /tmp
+          name: vol-staging-script
