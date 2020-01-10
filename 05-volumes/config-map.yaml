@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: staging-properties
+data:
+  properties: |
+    server.port: 8000
+    server.name: google.com
+---
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: run-sh
+  data:
+    script: |
+      echo "hello"
+      echo "************"
+      echo "hello" > hello.log
+      echo "************"
+      ls
+---
