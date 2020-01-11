@@ -1,0 +1,130 @@
+Chain PREROUTING (policy ACCEPT)
+target     prot opt source               destination         
+KUBE-SERVICES  all  --  0.0.0.0/0            0.0.0.0/0            /* kubernetes service portals */
+DOCKER     all  --  0.0.0.0/0            0.0.0.0/0            ADDRTYPE match dst-type LOCAL
+
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination         
+KUBE-SERVICES  all  --  0.0.0.0/0            0.0.0.0/0            /* kubernetes service portals */
+DOCKER     all  --  0.0.0.0/0           !127.0.0.0/8          ADDRTYPE match dst-type LOCAL
+
+Chain POSTROUTING (policy ACCEPT)
+target     prot opt source               destination         
+KUBE-POSTROUTING  all  --  0.0.0.0/0            0.0.0.0/0            /* kubernetes postrouting rules */
+MASQUERADE  all  --  172.17.0.0/16        0.0.0.0/0           
+
+Chain DOCKER (2 references)
+target     prot opt source               destination         
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
+
+Chain KUBE-MARK-DROP (0 references)
+target     prot opt source               destination         
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            MARK or 0x8000
+
+Chain KUBE-MARK-MASQ (11 references)
+target     prot opt source               destination         
+MARK       all  --  0.0.0.0/0            0.0.0.0/0            MARK or 0x4000
+
+Chain KUBE-NODEPORTS (1 references)
+target     prot opt source               destination         
+KUBE-MARK-MASQ  tcp  --  0.0.0.0/0            0.0.0.0/0            /* kube-system/kibana-logging: */ tcp dpt:30003
+KUBE-SVC-IUGSYNO5UD5ENGHX  tcp  --  0.0.0.0/0            0.0.0.0/0            /* kube-system/kibana-logging: */ tcp dpt:30003
+
+Chain KUBE-POSTROUTING (1 references)
+target     prot opt source               destination         
+MASQUERADE  all  --  0.0.0.0/0            0.0.0.0/0            /* kubernetes service traffic requiring SNAT */ mark match 0x4000/0x4000
+
+Chain KUBE-SEP-7GX476TI2JY2ICES (1 references)
+target     prot opt source               destination         
+KUBE-MARK-MASQ  all  --  172.17.0.7           0.0.0.0/0           
+DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp to:172.17.0.7:80
+
+Chain KUBE-SEP-7PPXA5JT5ALVQPIV (1 references)
+target     prot opt source               destination         
+KUBE-MARK-MASQ  all  --  172.17.0.2           0.0.0.0/0           
+DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp to:172.17.0.2:53
+
+Chain KUBE-SEP-C3FRHLTLIK3CLUJT (1 references)
+target     prot opt source               destination         
+KUBE-MARK-MASQ  all  --  172.17.0.4           0.0.0.0/0           
+DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp to:172.17.0.4:9200
+
+Chain KUBE-SEP-CPJSBS35VMSBOKH6 (1 references)
+target     prot opt source               destination         
+KUBE-MARK-MASQ  all  --  172.17.0.3           0.0.0.0/0           
+DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp to:172.17.0.3:53
+
+Chain KUBE-SEP-DSL7LUEVWMEJDZFH (1 references)
+target     prot opt source               destination         
+KUBE-MARK-MASQ  all  --  172.17.0.2           0.0.0.0/0           
+DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp to:172.17.0.2:9153
+
+Chain KUBE-SEP-FI3JRDEIKTZF5I6Q (1 references)
+target     prot opt source               destination         
+KUBE-MARK-MASQ  all  --  172.17.0.6           0.0.0.0/0           
+DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp to:172.17.0.6:5601
+
+Chain KUBE-SEP-K7JQ5XSWBQ7MTKDL (1 references)
+target     prot opt source               destination         
+KUBE-MARK-MASQ  all  --  172.17.0.3           0.0.0.0/0           
+DNAT       udp  --  0.0.0.0/0            0.0.0.0/0            udp to:172.17.0.3:53
+
+Chain KUBE-SEP-MJ4C7PP2DS74GGQA (1 references)
+target     prot opt source               destination         
+KUBE-MARK-MASQ  all  --  172.17.0.3           0.0.0.0/0           
+DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp to:172.17.0.3:9153
+
+Chain KUBE-SEP-PKMUSVVCEAUOLFI6 (1 references)
+target     prot opt source               destination         
+KUBE-MARK-MASQ  all  --  192.168.99.106       0.0.0.0/0           
+DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp to:192.168.99.106:8443
+
+Chain KUBE-SEP-SNPTLXDNVSPZ5ND2 (1 references)
+target     prot opt source               destination         
+KUBE-MARK-MASQ  all  --  172.17.0.2           0.0.0.0/0           
+DNAT       udp  --  0.0.0.0/0            0.0.0.0/0            udp to:172.17.0.2:53
+
+Chain KUBE-SERVICES (2 references)
+target     prot opt source               destination         
+KUBE-SVC-ERIFXISQEP7F7OF4  tcp  --  0.0.0.0/0            10.96.0.10           /* kube-system/kube-dns:dns-tcp cluster IP */ tcp dpt:53
+KUBE-SVC-RKD3UH2OQ33CLZE3  tcp  --  0.0.0.0/0            10.102.3.12          /* default/ui: cluster IP */ tcp dpt:80
+KUBE-SVC-7BB4GED2QYDGC4GN  tcp  --  0.0.0.0/0            10.97.230.122        /* kube-system/elasticsearch-logging: cluster IP */ tcp dpt:9200
+KUBE-SVC-IUGSYNO5UD5ENGHX  tcp  --  0.0.0.0/0            10.98.116.238        /* kube-system/kibana-logging: cluster IP */ tcp dpt:5601
+KUBE-SVC-NPX46M4PTMTKRN6Y  tcp  --  0.0.0.0/0            10.96.0.1            /* default/kubernetes:https cluster IP */ tcp dpt:443
+KUBE-SVC-JD5MR3NA4I4DYORP  tcp  --  0.0.0.0/0            10.96.0.10           /* kube-system/kube-dns:metrics cluster IP */ tcp dpt:9153
+KUBE-SVC-TCOU7JCQXEZGVUNU  udp  --  0.0.0.0/0            10.96.0.10           /* kube-system/kube-dns:dns cluster IP */ udp dpt:53
+KUBE-NODEPORTS  all  --  0.0.0.0/0            0.0.0.0/0            /* kubernetes service nodeports; NOTE: this must be the last rule in this chain */ ADDRTYPE match dst-type LOCAL
+
+Chain KUBE-SVC-7BB4GED2QYDGC4GN (1 references)
+target     prot opt source               destination         
+KUBE-SEP-C3FRHLTLIK3CLUJT  all  --  0.0.0.0/0            0.0.0.0/0           
+
+Chain KUBE-SVC-ERIFXISQEP7F7OF4 (1 references)
+target     prot opt source               destination         
+KUBE-SEP-7PPXA5JT5ALVQPIV  all  --  0.0.0.0/0            0.0.0.0/0            statistic mode random probability 0.50000000000
+KUBE-SEP-CPJSBS35VMSBOKH6  all  --  0.0.0.0/0            0.0.0.0/0           
+
+Chain KUBE-SVC-IUGSYNO5UD5ENGHX (2 references)
+target     prot opt source               destination         
+KUBE-SEP-FI3JRDEIKTZF5I6Q  all  --  0.0.0.0/0            0.0.0.0/0           
+
+Chain KUBE-SVC-JD5MR3NA4I4DYORP (1 references)
+target     prot opt source               destination         
+KUBE-SEP-DSL7LUEVWMEJDZFH  all  --  0.0.0.0/0            0.0.0.0/0            statistic mode random probability 0.50000000000
+KUBE-SEP-MJ4C7PP2DS74GGQA  all  --  0.0.0.0/0            0.0.0.0/0           
+
+Chain KUBE-SVC-NPX46M4PTMTKRN6Y (1 references)
+target     prot opt source               destination         
+KUBE-SEP-PKMUSVVCEAUOLFI6  all  --  0.0.0.0/0            0.0.0.0/0           
+
+Chain KUBE-SVC-RKD3UH2OQ33CLZE3 (1 references)
+target     prot opt source               destination         
+KUBE-SEP-7GX476TI2JY2ICES  all  --  0.0.0.0/0            0.0.0.0/0           
+
+Chain KUBE-SVC-TCOU7JCQXEZGVUNU (1 references)
+target     prot opt source               destination         
+KUBE-SEP-SNPTLXDNVSPZ5ND2  all  --  0.0.0.0/0            0.0.0.0/0            statistic mode random probability 0.50000000000
+KUBE-SEP-K7JQ5XSWBQ7MTKDL  all  --  0.0.0.0/0            0.0.0.0/0 
