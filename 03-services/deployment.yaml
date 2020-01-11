@@ -13,6 +13,11 @@ spec:
         app: frontend
         version: v1.0.0
     spec:
+      initContainers:
+      - name: install-bind-tools
+        image: nginx:1.17-alpine
+        command: ["/bin/sh"]
+        args: ["-c","apk add bind-tools"]
       containers:
       - name: nginx
         image: shadjachaudhari/nginx:v1.0.0
