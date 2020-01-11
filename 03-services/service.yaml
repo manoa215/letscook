@@ -4,15 +4,11 @@ metadata:
   #name: service-name-frontend
   name: ui
 spec:
-  type: NodePort
+  #type: NodePort
   selector:
     #pod-label-key-app: pod-label-value-frontend
     app: frontend # deploy v1 and v2 for canary release
     #version: v2.0.0
   ports:
     - protocol: TCP
-      port: 80 # change to 8000
-      targetPort: 80
-      #nodePort: 31442
-# # kubectl exec, apk add bind-tools, dig -x <service ip>
-# ---
+      port: 80
