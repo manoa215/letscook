@@ -19,24 +19,24 @@ spec:
         command: ["/bin/sh"]
         args: ["-c", "./env.sh > /usr/share/nginx/html/env.js && nginx -g 'daemon off;' "]
 ---
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: frontend-v2.0.0
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: frontend
-      version: v2.0.0
-  template:
-    metadata:
-      labels:
-        app: frontend
-        version: v2.0.0
-    spec:
-      containers:
-      - name: nginx
-        image: shadjachaudhari/nginx:v2.0.0
-        command: ["/bin/sh"]
-        args: ["-c", "./env.sh > /usr/share/nginx/html/env.js && nginx -g 'daemon off;' "]
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: frontend-v2.0.0
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: frontend
+#       version: v2.0.0
+#   template:
+#     metadata:
+#       labels:
+#         app: frontend
+#         version: v2.0.0
+#     spec:
+#       containers:
+#       - name: nginx
+#         image: shadjachaudhari/nginx:v2.0.0
+#         command: ["/bin/sh"]
+#         args: ["-c", "./env.sh > /usr/share/nginx/html/env.js && nginx -g 'daemon off;' "]
